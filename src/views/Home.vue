@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="playerTile" v-for="(item, index) in items" :key="index+10">
-      <span v-bind:style="{color:item.color}">★</span>&nbsp;&nbsp;{{ item.minutes }} : {{ ( '00' + item.seconds ).slice( -2 ) }}
+      <span v-bind:style="{color:item.backgroundColor}">★</span>&nbsp;&nbsp;{{ item.minutes }} : {{ ( '00' + item.seconds ).slice( -2 ) }}
     </div>
     <div @click="start" v-show="timerStatus == 0" class="buttonTile">
       START
@@ -12,8 +12,8 @@
     <div v-show="timerStatus == 2" @click="restart" class="buttonTile">
       RESTART
     </div>
-    <div class="timerTile" v-for="(item, index) in items" :key="index">
-      <div  @click="clickTimer(item)" v-show="index == indexShown">
+    <div v-for="(item, index) in items" :key="index">
+      <div  @click="clickTimer(item)" v-show="index == indexShown" v-bind:style="{color:foreColors[index]}">
       <circular-count-down-timer
         @update="updated"
         @finish="finished"
@@ -23,9 +23,8 @@
         :minutes-stroke-color="'white'"
         :hours-stroke-color="'white'"
         :underneath-stroke-color="'lightgrey'"
-        :seconds-fill-color="item.color"
-        :minutes-fill-color="item.color"
-        :hours-fill-color="'#00ffff66'"
+        :seconds-fill-color="item.backgroundColor"
+        :minutes-fill-color="item.backgroundColor"
         :size="150"
         :padding="4"
         :hour-label="''"
@@ -53,7 +52,19 @@ export default {
       timerStatus: 0, // 0:pausing 1:running 2:finished
       items: [
       ],
-      colors: [
+      foreColors: [
+        "white",
+        "white",
+        "white",
+        "black",
+        "white",
+        "white",
+        "black",
+        "white",
+        "white",
+        "black",
+      ],
+      backgroundColors: [
         "red",
         "blue",
         "green",
@@ -78,7 +89,7 @@ export default {
       this.items[this.indexShown].paused = true;
     },
     clickTimer(item) {
-      if(this.timerStatus == 0) {
+      if(this.timerStatus == 0 || this.timerStatus == 2) {
         return;
       }
       item.paused = true;
@@ -129,7 +140,7 @@ export default {
         });
       }
       
-      this.items.push({ color: this.colors[i], paused: true, minutes: minutes, seconds: seconds, totalSeconds: totalSeconds, });
+      this.items.push({ backgroundColor: this.backgroundColors[i], paused: true, minutes: minutes, seconds: seconds, totalSeconds: totalSeconds, });
     }
   },
 }
@@ -138,11 +149,9 @@ export default {
 <style>
 .home {
   font-family: 'HelveticaNeue-CondensedBlack','arial black';
-  /* background-color: blue; */
 }
 .buttonTile {
   line-height: 100px;
   font-size: 2rem;
 }
-
 </style>
