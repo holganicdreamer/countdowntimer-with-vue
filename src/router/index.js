@@ -20,6 +20,11 @@ const routes = [
     name: 'home',
     component: Home
   },
+  {
+    path: '/:max/:totalSeconds/:playerTotalSeconds',
+    name: 'home',
+    component: Home
+  },
 ]
 
 const router = new VueRouter({

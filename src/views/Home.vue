@@ -17,7 +17,7 @@
       <circular-count-down-timer
         @update="updated"
         @finish="finished"
-        :initial-value="totalSeconds"
+        :initial-value="item.totalSeconds"
         :stroke-width="10"
         :seconds-stroke-color="'white'"
         :minutes-stroke-color="'white'"
@@ -26,7 +26,7 @@
         :seconds-fill-color="item.color"
         :minutes-fill-color="item.color"
         :hours-fill-color="'#00ffff66'"
-        :size="200"
+        :size="150"
         :padding="4"
         :hour-label="''"
         :minute-label="''"
@@ -50,7 +50,6 @@ export default {
     return {
       indexShown: -1,
       max: 4,
-      totalSeconds: 60,
       timerStatus: 0, // 0:pausing 1:running 2:finished
       items: [
       ],
@@ -70,46 +69,67 @@ export default {
   },
   methods: {
     start() {
-      this.timerStatus = 1
-      this.indexShown = this.indexShown == -1 ? 0 : this.indexShown
-      this.items[this.indexShown].paused = false
+      this.timerStatus = 1;
+      this.indexShown = this.indexShown == -1 ? 0 : this.indexShown;
+      this.items[this.indexShown].paused = false;
     },
     pause() {
-      this.timerStatus = 0
-      this.items[this.indexShown].paused = true
+      this.timerStatus = 0;
+      this.items[this.indexShown].paused = true;
     },
     clickTimer(item) {
       if(this.timerStatus == 0) {
-        return
+        return;
       }
-      item.paused = true
-      this.indexShown = this.indexShown == (this.max - 1) ? 0 : this.indexShown + 1
-      this.items[this.indexShown].paused = false
+      item.paused = true;
+      this.indexShown = this.indexShown == (this.max - 1) ? 0 : this.indexShown + 1;
+      this.items[this.indexShown].paused = false;
     },
     updated(status) {
-      this.items[this.indexShown].minutes = status.minutes
-      this.items[this.indexShown].seconds = status.seconds
+      this.items[this.indexShown].minutes = status.minutes;
+      this.items[this.indexShown].seconds = status.seconds;
     },
     finished() {
-      this.timerStatus = 2
+      this.timerStatus = 2;
     },
     restart() {
-      this.$router.go({path: this.$router.currentRoute.path, force: true})
+      this.$router.go({path: this.$router.currentRoute.path, force: true});
     },
   },
   mounted () {
-    var minutes = 1;
-    var seconds = 0;
+    var minutes = null;
+    var seconds = null;
+    var totalSeconds = null;
     if(!isNaN(this.$route.params.max) && this.$route.params.max <= 10) {
-      this.max = this.$route.params.max
+      this.max = this.$route.params.max;
     }
-    if(!isNaN(this.$route.params.totalSeconds) && this.$route.params.totalSeconds <= (59*60+59)) {
-      minutes = Math.floor(this.$route.params.totalSeconds / 60)
-      seconds = this.$route.params.totalSeconds - minutes * 60
-      this.totalSeconds = Number(this.$route.params.totalSeconds)
+    var elms1 = null;
+    if(this.$route.params.playerTotalSeconds) {
+      elms1 = this.$route.params.playerTotalSeconds.split(',');
     }
     for(var i = 0; i < this.max; i++) {
-      this.items.push({ color: this.colors[i], paused: true, minutes: minutes, seconds: seconds, })
+      minutes = 1;
+      seconds = 0;
+      totalSeconds = 60;
+      if(!isNaN(this.$route.params.totalSeconds) && this.$route.params.totalSeconds <= (59*60+59)) {
+        minutes = Math.floor(this.$route.params.totalSeconds / 60);
+        seconds = this.$route.params.totalSeconds - minutes * 60;
+        totalSeconds = Number(this.$route.params.totalSeconds);
+      }
+      if(elms1) {
+        elms1.forEach(elm1 => {
+          var elms2 = elm1.split('=');
+          if(elms2[0] == (i + 1)) {
+            if(!isNaN(elms2[1]) && elms2[1] <= (59*60+59)) {
+              minutes = Math.floor(elms2[1] / 60);
+              seconds = elms2[1] - minutes * 60;
+              totalSeconds = Number(elms2[1]);
+            }
+          }
+        });
+      }
+      
+      this.items.push({ color: this.colors[i], paused: true, minutes: minutes, seconds: seconds, totalSeconds: totalSeconds, });
     }
   },
 }
@@ -117,7 +137,7 @@ export default {
 
 <style>
 .home {
-  font-family: 'arial black';
+  font-family: 'HelveticaNeue-CondensedBlack','arial black';
   /* background-color: blue; */
 }
 .buttonTile {
