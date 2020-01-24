@@ -152,6 +152,16 @@ export default {
 </script>
 
 <style>
+.header {
+  font-family: 'Lato', 'Noto Sans JP', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+  text-align:left;
+  font-size: 12px;
+}
+.header a {
+  text-decoration: none;
+  color: #777777;
+  font-weight: 600;
+}
 .home {
   font-family: 'HelveticaNeue-CondensedBlack','arial black';
 }
