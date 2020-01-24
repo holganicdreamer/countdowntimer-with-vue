@@ -1,42 +1,47 @@
 <template>
-  <div class="home">
-    <div class="playerTile" v-for="(item, index) in items" :key="index+10">
-      <span v-bind:style="{color:item.backgroundColor}">★</span>&nbsp;&nbsp;{{ item.minutes }} : {{ ( '00' + item.seconds ).slice( -2 ) }}
+  <div>
+    <div class="header">
+      <a href="/holganicdreamer/">HOLGANIC DREAMER</a>&nbsp;-&nbsp;<a href="/holganicdreamer/software/vuejsgadget/countdowntimer/">持ち時間タイマー</a>
     </div>
-    <div @click="start" v-show="timerStatus == 0" class="buttonTile">
-      START
-    </div>
-    <div @click="pause" v-show="timerStatus == 1" class="buttonTile">
-      PAUSE
-    </div>
-    <div v-show="timerStatus == 2" @click="restart" class="buttonTile">
-      RESTART
-    </div>
-    <div v-for="(item, index) in items" :key="index">
-      <div  @click="clickTimer(item)" v-show="index == indexShown" v-bind:style="{color:foreColors[index]}">
-      <circular-count-down-timer
-        @update="updated"
-        @finish="finished"
-        :initial-value="item.totalSeconds"
-        :stroke-width="10"
-        :seconds-stroke-color="'white'"
-        :minutes-stroke-color="'white'"
-        :hours-stroke-color="'white'"
-        :underneath-stroke-color="'lightgrey'"
-        :seconds-fill-color="item.backgroundColor"
-        :minutes-fill-color="item.backgroundColor"
-        :size="150"
-        :padding="4"
-        :hour-label="''"
-        :minute-label="''"
-        :second-label="''"
-        :show-second="true"
-        :show-minute="true"
-        :show-hour="false"
-        :show-negatives="false"
-        :paused=item.paused
-        :notify-every="'second'" />
-    </div>
+    <div class="home">
+      <div class="playerTile" v-for="(item, index) in items" :key="index+10">
+        <span v-bind:style="{color:item.backgroundColor}">★</span>&nbsp;&nbsp;{{ item.minutes }} : {{ ( '00' + item.seconds ).slice( -2 ) }}
+      </div>
+      <div @click="start" v-show="timerStatus == 0" class="buttonTile">
+        START
+      </div>
+      <div @click="pause" v-show="timerStatus == 1" class="buttonTile">
+        PAUSE
+      </div>
+      <div v-show="timerStatus == 2" @click="restart" class="buttonTile">
+        RESTART
+      </div>
+      <div v-for="(item, index) in items" :key="index">
+        <div  @click="clickTimer(item)" v-show="index == indexShown" v-bind:style="{color:foreColors[index]}">
+          <circular-count-down-timer
+            @update="updated"
+            @finish="finished"
+            :initial-value="item.totalSeconds"
+            :stroke-width="10"
+            :seconds-stroke-color="'white'"
+            :minutes-stroke-color="'white'"
+            :hours-stroke-color="'white'"
+            :underneath-stroke-color="'lightgrey'"
+            :seconds-fill-color="item.backgroundColor"
+            :minutes-fill-color="item.backgroundColor"
+            :size="150"
+            :padding="4"
+            :hour-label="''"
+            :minute-label="''"
+            :second-label="''"
+            :show-second="true"
+            :show-minute="true"
+            :show-hour="false"
+            :show-negatives="false"
+            :paused=item.paused
+            :notify-every="'second'" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
