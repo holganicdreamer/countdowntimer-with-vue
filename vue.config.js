@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/holganicdreamer/project/countdowntimer-with-vue/'
+  publicPath: '/project/countdowntimer-with-vue/'
 }

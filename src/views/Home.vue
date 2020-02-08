@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <a href="/holganicdreamer/">HOLGANIC DREAMER</a>&nbsp;-&nbsp;<a href="/holganicdreamer/software/vuejsgadget/countdowntimer/">持ち時間タイマー</a>
+      <a href="/">HOLGANIC DREAMER</a>&nbsp;-&nbsp;<a href="/software/vuejsgadget/countdowntimer">持ち時間タイマー</a>
     </div>
     <div class="home">
       <div class="playerTile" v-for="(item, index) in items" :key="index+10">
